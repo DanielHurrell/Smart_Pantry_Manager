@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements PantryAdapter.OnPantryItemActionListener {
 
     private RecyclerView recyclerPantry;
     private TextView tvEmptyMessage;
@@ -31,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        recyclerPantry.setLayoutManager(new LinearLayoutManager(this));
+        recyclerPantry.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
 
         btnAddIngredient.setOnClickListener(v -> {
             Intent intent = new Intent(
@@ -52,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadPantryItems() {
 
-        List<PantryItem> pantryItems = databaseHelper.getAllPantryItems();
+        List<PantryItem> pantryItems =
+                databaseHelper.getAllPantryItems();
 
         if (pantryItems.isEmpty()) {
 
@@ -64,8 +69,51 @@ public class MainActivity extends AppCompatActivity {
             recyclerPantry.setVisibility(View.VISIBLE);
             tvEmptyMessage.setVisibility(View.GONE);
 
-            pantryAdapter = new PantryAdapter(pantryItems);
+            pantryAdapter = new PantryAdapter(
+                    pantryItems,
+                    this
+            );
+
             recyclerPantry.setAdapter(pantryAdapter);
+        }
+    }
+
+    @Override
+    public void onEdit(PantryItem item) {
+
+        Intent intent = new Intent(
+                MainActivity.this,
+                AddEditIngredientActivity.class
+        );
+
+        intent.putExtra("pantry_item_id", item.getId());
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDelete(PantryItem item) {
+
+        int rowsDeleted =
+                databaseHelper.deletePantryItem(item.getId());
+
+        if (rowsDeleted > 0) {
+
+            Toast.makeText(
+                    this,
+                    "Ingredient deleted",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            loadPantryItems();
+
+        } else {
+
+            Toast.makeText(
+                    this,
+                    "Failed to delete ingredient",
+                    Toast.LENGTH_SHORT
+            ).show();
         }
     }
 }

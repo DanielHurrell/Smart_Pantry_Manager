@@ -128,4 +128,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
+    public PantryItem getPantryItem(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM pantry WHERE id = ?",
+                new String[]{String.valueOf(id)}
+        );
+
+        PantryItem item = null;
+
+        if (cursor.moveToFirst()) {
+
+            int itemId =
+                    cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+
+            String name =
+                    cursor.getString(cursor.getColumnIndexOrThrow("name"));
+
+            double quantity =
+                    cursor.getDouble(cursor.getColumnIndexOrThrow("quantity"));
+
+            String unit =
+                    cursor.getString(cursor.getColumnIndexOrThrow("unit"));
+
+            String expiryDate =
+                    cursor.getString(cursor.getColumnIndexOrThrow("expiry_date"));
+
+            item = new PantryItem(
+                    itemId,
+                    name,
+                    quantity,
+                    unit,
+                    expiryDate
+            );
+        }
+
+        cursor.close();
+
+        return item;
+    }
+
 }

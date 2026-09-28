@@ -25,8 +25,30 @@
         android:id="@+id/tvExpiryDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Expires: 2026-10-15"
+        android:text="No expiry date"
         android:textSize="14sp"
         android:paddingTop="4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delete" />
+
+    </LinearLayout>
 
 </LinearLayout>
