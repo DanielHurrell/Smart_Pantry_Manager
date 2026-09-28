@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvIngredientName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tomatoes"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvIngredientDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="5 pieces"
+        android:textSize="16sp"
+        android:paddingTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvExpiryDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expires: 2026-10-15"
+        android:textSize="14sp"
+        android:paddingTop="4dp" />
+
+</LinearLayout>
