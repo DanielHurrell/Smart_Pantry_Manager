@@ -23,6 +23,11 @@
 
         </activity>
 
+        <activity
+            android:name=".AddEditIngredientActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
