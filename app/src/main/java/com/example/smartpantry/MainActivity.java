@@ -31,6 +31,32 @@ public class MainActivity extends AppCompatActivity
 
         Button btnAddIngredient = findViewById(R.id.btnAddIngredient);
 
+        Button btnNavPantry = findViewById(R.id.btnNavPantry);
+        Button btnNavRecipes = findViewById(R.id.btnNavRecipes);
+        Button btnNavSettings = findViewById(R.id.btnNavSettings);
+
+        btnNavPantry.setOnClickListener(v -> {
+            // Already on Pantry screen
+        });
+
+        btnNavRecipes.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SuggestedRecipesActivity.class
+            );
+
+            startActivity(intent);
+        });
+
+        btnNavSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SettingsActivity.class
+            );
+
+            startActivity(intent);
+        });
+
         databaseHelper = new DatabaseHelper(this);
 
         recyclerPantry.setLayoutManager(

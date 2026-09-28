@@ -3,37 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Pantry"
+        android:text="Settings"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="24dp" />
 
-    <TextView
-        android:id="@+id/tvEmptyMessage"
+    <CheckBox
+        android:id="@+id/checkExpiryAlerts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your pantry is empty. Add an ingredient to get started."
-        android:textSize="16sp"
-        android:padding="16dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerPantry"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/btnAddIngredient"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Ingredient" />
+        android:text="Enable expiry alerts"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

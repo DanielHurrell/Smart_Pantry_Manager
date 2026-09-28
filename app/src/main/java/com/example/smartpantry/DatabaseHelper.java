@@ -48,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ")";
 
         db.execSQL(createRecipeIngredientsTable);
+        RecipeData.addRecipes(db);
     }
 
     @Override
@@ -168,6 +169,132 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return item;
+    }
+
+    public long addRecipe(String name, String instructions) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("instructions", instructions);
+
+        return db.insert("recipes", null, values);
+    }
+
+    public long addRecipeIngredient(
+            int recipeId,
+            String ingredientName,
+            double requiredQuantity,
+            String unit) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("recipe_id", recipeId);
+        values.put("ingredient_name", ingredientName);
+        values.put("required_quantity", requiredQuantity);
+        values.put("unit", unit);
+
+        return db.insert(
+                "recipe_ingredients",
+                null,
+                values
+        );
+    }
+
+    public List<Recipe> getAllRecipes() {
+
+        List<Recipe> recipes = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id, name, instructions FROM recipes",
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String instructions = cursor.getString(2);
+
+                recipes.add(
+                        new Recipe(id, name, instructions)
+                );
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        return recipes;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients(int recipeId) {
+
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id, recipe_id, ingredient_name, required_quantity, unit " +
+                        "FROM recipe_ingredients WHERE recipe_id = ?",
+                new String[]{String.valueOf(recipeId)}
+        );
+
+        if (cursor.moveToFirst()) {
+
+            do {
+                int id = cursor.getInt(0);
+                int recipeIdValue = cursor.getInt(1);
+                String ingredientName = cursor.getString(2);
+                double requiredQuantity = cursor.getDouble(3);
+                String unit = cursor.getString(4);
+
+                ingredients.add(
+                        new RecipeIngredient(
+                                id,
+                                recipeIdValue,
+                                ingredientName,
+                                requiredQuantity,
+                                unit
+                        )
+                );
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        return ingredients;
+    }
+
+    public Recipe getRecipe(int recipeId) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT id, name, instructions FROM recipes WHERE id = ?",
+                new String[]{String.valueOf(recipeId)}
+        );
+
+        Recipe recipe = null;
+
+        if (cursor.moveToFirst()) {
+
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String instructions = cursor.getString(2);
+
+            recipe = new Recipe(id, name, instructions);
+        }
+
+        cursor.close();
+
+        return recipe;
     }
 
 }
